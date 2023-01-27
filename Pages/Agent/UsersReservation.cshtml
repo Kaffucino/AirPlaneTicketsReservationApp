@@ -1,0 +1,110 @@
+﻿@page
+@model AvioApp.Pages.Agent.UsersReservationModel
+@using System.Diagnostics;
+
+@{
+    ViewData["Title"] = "Agent page";
+ }
+
+
+      
+
+  
+    
+
+
+
+<div class="text-center form-group row" style="background-color:aliceblue; margin-bottom:100px">
+    <div class="offset-3 col-6">
+        <h1 class="display-4">Rezervacija avio karata</h1>
+    </div>
+    <div class="offset-1 col-2">
+        <label class="display-7" >Korisnik: @Model.Username</label>
+        <a class="btn btn-primary btn-sm" style="font-size:20px" href="/">Odjavite se</a>
+    </div>
+
+
+</div>
+
+<div class="row text-center" style="background-color:dodgerblue; margin-top:-100px; border:solid">
+
+    <div class="offset-2 col-4">
+        <label class="display-6"><a style="color:black; text-decoration-line:none" href="/Agent/Index?username=@Model.Username">Avionski letovi</a>  </label>
+       
+    </div>
+
+    <div class="col-4">
+        <label class="display-6" style="font-weight:bold; color:white">Rezervacije posetilaca  </label>
+    </div>
+
+</div>
+
+
+
+<br />
+
+
+<form method="post">
+    <table class="table">
+
+    <thead>
+
+    <th>Mesto polaska</th>
+    <th>Mesto dolaska</th>
+    <th>Datum</th>
+    <th>Korisnik</th>
+    <th>Broj mesta</th>
+
+    </thead>
+
+        <tbody id="ReservationsTableAgent">
+
+        @foreach (var reservation in Model.reservations)
+        {
+            <tr>
+                <td>@reservation.place_from</td>
+                <td>@reservation.place_to</td>
+                <td>@reservation.date</td>
+                <td>
+                    @reservation.user
+                </td>
+                <td>
+                    @reservation.num_of_seats
+                </td>
+
+                <td>
+                        @*<button type="submit" class="btn btn-primary btn-sm" asp-route-ID="@reservation.id" asp-page-handler="SubmitAccept">Prihvatite</button>*@
+                        <a class="btn btn-primary btn-sm" href="/Agent/DeclineReservation">Odobrite</a>
+                </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary btn-sm" asp-route-ID="@reservation.id" asp-page-handler="SubmitDecline">Odbite</button>
+                    </td>
+                    
+
+            </tr>
+
+        }
+
+    </tbody>
+
+        @if (Model.error_message.Length > 0)
+        {
+                            <div class="alert alert-warning alert-dismissable fade show" role="alert">
+
+                            <strong>
+                    @Model.error_message
+                            </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" arial-label="Zatvori"></button>
+                        </div>
+        }
+
+<br/>
+
+</table>
+</form>
+
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/reservations.js"></script>
+}
+

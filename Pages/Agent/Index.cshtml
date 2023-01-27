@@ -1,0 +1,215 @@
+﻿@page
+@model AvioApp.Pages.Agent.IndexModel
+@{
+    ViewData["Title"] = "Agent page";
+}
+
+
+<div class="text-center form-group row" style="background-color:aliceblue; margin-bottom:100px">
+    <div class="offset-3 col-6">
+        <h1 class="display-4">Rezervacija avio karata</h1>
+    </div>
+    <div class="offset-1 col-2">
+        <label class="display-7"> Korisnik: @Model.Username </label>
+        <a class="btn btn-primary btn-sm" style="font-size:20px" href="/">Odjavite se</a>
+    </div>
+
+
+</div>
+
+<div class="row text-center" style="background-color:dodgerblue; margin-top:-100px; border:solid">
+
+    <div class="offset-2 col-4">
+        <label class="display-6" style="font-weight:bold; color:white" >  Avionski letovi </label>
+    </div>
+
+    <div class="col-4">
+        <label class="display-6"> <a style="color:black; text-decoration-line:none" href="/Agent/UsersReservation?username=@Model.Username">Rezervacije posetilaca</a> </label>
+    </div>
+
+</div>
+
+<br/>
+
+
+<div class="row text-center">
+    <div class="col-12">
+
+        <h1 class="display-5" style="color:royalblue; font-weight:500;">Trenutni letovi</h1>
+
+    </div>
+</div>
+<br/>
+
+<table class="table">
+
+    <thead>
+          
+         <th>Mesto polaska</th>
+         <th>Mesto dolaska</th>
+         <th>Datum</th>
+         <th>Broj presedanja</th>
+         <th>Popunjena mesta</th>
+         <th>Status leta</th>
+
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var flight in Model.flights)
+        {
+            <tr style="@( (@flight.capacity-flight.taken_seats) < 5 ? Html.Raw("background-color:royalblue") : Html.Raw("background-color:none") )">
+                <td>@flight.place_from</td>
+                <td>@flight.place_to</td>
+                <td>@flight.date</td>
+                <td>
+                    @flight.transfers
+                </td>
+                <td>
+                    @flight.taken_seats/@flight.capacity
+                </td>
+                <td>
+                    @flight.status
+                </td>
+
+            </tr>
+
+        }
+
+    </tbody>
+
+</table>
+
+
+<br/>
+<br />
+
+<div class="row text-center" >
+    <div class="col-12">
+
+        <h1 class="display-5" style="color:royalblue; font-weight:500;">Forma za unos novog leta</h1>
+
+    </div>
+</div>
+
+@if (Model.error_message.Length > 0)
+{
+                         <div class="alert alert-warning alert-dismissable fade show" role="alert">
+
+                            <strong>
+            @Model.error_message
+                            </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" arial-label="Zatvori"></button>
+                        </div>
+}
+
+<br/>
+
+<div class="container border" style="padding:50px; background-color:aliceblue">
+
+
+
+    <form method="post">
+        <div class="form-group row">
+
+
+
+
+            <div class="offset-1 col-3">
+
+                <label style="font-size:25px">Mesto polaska: </label>
+            </div>
+            <div class="offset-1 col-5">
+               
+                <select class="form-select" name="PlaceFrom" value="@Model.PlaceFrom">
+                    <option value="Beograd">Beograd</option>
+                    <option value="Niš">Niš</option>
+                    <option value="Kraljevo">Kraljevo</option>
+                    <option value="Priština">Priština</option>
+
+                </select>
+
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin-top:20px">
+
+            <div class=" offset-1 col-3">
+
+                <label style="font-size:25px">Mesto dolaska: </label>
+            </div>
+            <div class=" offset-1 col-5">
+                <select class="form-select" name="PlaceTo"value="@Model.PlaceTo">
+                    <option value="Beograd">Beograd</option>
+                    <option value="Niš">Niš</option>
+                    <option value="Kraljevo">Kraljevo</option>
+                    <option value="Priština">Priština</option>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin-top:20px">
+
+            <div class=" offset-1 col-3">
+
+                <label style="font-size:25px">Datum leta: </label>
+            </div>
+            <div class=" offset-1 col-5">
+                <input required type="date" min="@Model.min_date" name="Date" value="@Model.date" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row" style="margin-top:20px">
+
+            <div class=" offset-1 col-3">
+
+                <label style="font-size:25px">Broj presedanja: </label>
+            </div>
+            <div class=" offset-1 col-5">
+                <input type="number" min="0" name="Transfers" value="@Model.transfers" class="form-control" />
+            </div>
+        </div>
+
+
+        <div class="form-group row" style="margin-top:20px">
+
+            <div class=" offset-1 col-3">
+
+                <label style="font-size:25px">Broj mesta: </label>
+            </div>
+            <div class=" offset-1 col-5">
+                <input type="number" min="1" name="Capacity" value="@Model.capacity" class="form-control" />
+            </div>
+        </div>
+
+
+
+
+        <div class="row text-center" style="margin-top:40px">
+            <div class="offset-3 col-9">
+                <button type="submit" class="btn btn-primary btn-sm" style="font-size:30px">Unesite novi let</button>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>
+@if (Model.success_message.Length > 0)
+{
+            <div class="row mb-3">
+
+                <div class="col-sm-9">
+
+                    <div class="alert alert-success alert-dismissable fade show " role="alert">
+                        <strong>@Model.success_message</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" arial-label="Close"></button>
+                    </div>
+
+                </div>
+
+            </div>
+}
+

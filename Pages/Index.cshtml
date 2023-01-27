@@ -1,0 +1,94 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Login page";
+    
+}
+
+
+<div class="text-center row " style="background-color:aliceblue; margin-bottom:100px">
+    <div class="col-12">
+        <h1 class="display-4">Rezervacija avio karata</h1>
+
+    </div>
+</div>
+
+
+
+
+
+<div class="row text-center" >
+    <div class="col-12">
+
+        <h1 class="display-5" style="color:royalblue; font-weight:500;">Forma za prijavu</h1>
+
+    </div>
+</div>
+
+ @if (Model.error_message.Length > 0)
+        {
+                    <div class="alert alert-warning alert-dismissable fade show" role="alert">
+
+                        <strong>
+                    @Model.error_message
+                        </strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" arial-label="Zatvori"></button>
+                    </div>
+        }
+
+<br/>
+
+<div class="container border" style="padding:50px; background-color:aliceblue">
+
+
+   
+    <form method="post">
+    <div class="form-group row">
+
+
+       
+
+        <div class="offset-1 col-3">
+
+            <label style="font-size:25px" >Korisničko ime: </label>
+        </div>
+        <div class="offset-1 col-5">
+            <input id="UsernameId" type="text" name="Username" value="@Model.Username" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group row" style="margin-top:20px">
+
+        <div class=" offset-1 col-3">
+
+            <label style="font-size:25px">Šifra: </label>
+        </div>
+        <div class=" offset-1 col-5">
+                <input type="password" name="Password" value="@Model.Password" class="form-control" />
+        </div>
+    </div>
+
+      
+
+    <div class="row text-center" style="margin-top:40px">
+        <div class="offset-3 col-9">
+                <button type="submit" onclick="setLoggedUser()" class="btn btn-primary btn-sm" style="font-size:30px">Prijavite se</button>
+        </div>
+
+    </div>
+
+       
+</form>
+</div>
+
+<script>
+    function setLoggedUser()
+    {
+      var username= document.getElementById("UsernameId").value;
+        localStorage.setItem("loggedIn", JSON.stringify(username));
+
+    }
+</script>
+
+
+

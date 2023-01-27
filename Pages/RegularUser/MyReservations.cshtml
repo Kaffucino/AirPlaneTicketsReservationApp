@@ -1,0 +1,80 @@
+﻿@page
+@model AvioApp.Pages.RegularUser.MyReservationsModel
+@{
+    ViewData["Title"] = "Regular user page";
+}
+
+
+<div class="text-center form-group row" style="background-color:aliceblue; margin-bottom:100px">
+    <div class="offset-3 col-6">
+        <h1 class="display-4">Rezervacija avio karata</h1>
+    </div>
+    <div class="offset-1 col-2">
+        <label class="display-7"> Korisnik: <span id="RegUserUsername">@Model.Username</span> </label>
+        <a class="btn btn-primary btn-sm" style="font-size:20px" href="/">Odjavite se</a>
+    </div>
+
+</div>
+
+<div class="row text-center" style="background-color:dodgerblue; margin-top:-100px; border:solid">
+
+    <div class="offset-2 col-4">
+        <label class="display-6"> <a style="color:black; text-decoration-line:none" href="/RegularUser/Index?username=@Model.Username"> Avionski letovi</a> </label>
+       
+    </div>
+
+    <div class="col-4">
+        <label class="display-6" style="font-weight:bold; color:white"> Moje Rezervacije  </label>
+    </div>
+
+</div>
+
+<br />
+
+
+    <table class="table table-hover">
+
+        <thead>
+            <tr>
+            <th scope="col">Mesto polaska</th>
+            <th scope="col">Mesto dolaska</th>
+            <th scope="col">Datum polaska</th>
+            <th scope="col">Broj presedanja</th>
+            <th scope="col">Broj rezervisanih mesta</th>
+            <th scope="col">Status</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody id="ReservationsUserTable">
+
+             @foreach (var reservation in Model.reservations)
+        {
+            <tr>
+                <td>@reservation.place_from</td>
+                <td>@reservation.place_to</td>
+                <td>@reservation.date</td>
+                <td>
+                    @reservation.transfer
+                </td>
+
+                <td>
+                    @reservation.reservations
+
+                </td>
+                <td>
+                    @reservation.status
+                </td>
+
+            </tr>
+
+        }
+        </tbody>
+
+    </table>
+
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/reservations.js"></script>
+}

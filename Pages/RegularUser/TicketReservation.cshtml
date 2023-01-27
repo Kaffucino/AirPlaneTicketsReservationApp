@@ -1,0 +1,144 @@
+﻿@page
+@model AvioApp.Pages.RegularUser.TicketReservationModel
+@{
+    ViewData["Title"] = "Regular user page";
+}
+
+
+
+
+<div class="text-center form-group row" style="background-color:aliceblue; margin-bottom:100px">
+    <div class="offset-3 col-6">
+        <h1 class="display-4">Rezervacija avio karata</h1>
+    </div>
+    <div class="offset-1 col-2">
+        <label class="display-7"> Korisnik: @Model.Username </label>
+        <a class="btn btn-primary btn-sm" style="font-size:20px" href="/">Odjavite se</a>
+    </div>
+
+
+</div>
+
+
+<div class="row text-center">
+    <div class="col-12">
+
+        <h1 class="display-5" style="color:royalblue; font-weight:500;">Detalji rezervacije</h1>
+
+    </div>
+</div>
+
+ @if (Model.error_message.Length > 0)
+        {
+                    <div class="alert alert-warning alert-dismissable fade show" role="alert">
+
+                        <strong>
+                    @Model.error_message
+                        </strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" arial-label="Zatvori"></button>
+                    </div>
+        }
+
+<br/>
+<div class="container border" style="padding:50px; background-color:aliceblue">
+
+
+
+    <form method="post">
+        <div class="row text-center">
+
+
+            <div class="offset-4 col-3">
+
+                <label style="font-size:25px">Mesto polaska: <span style="font-weight:bold">@Model.flight.place_from</span>  </label>
+            </div>
+           
+        </div>
+
+        <div class="row text-center" style="margin-top:20px">
+
+            <div class=" offset-4 col-3">
+
+                <label style="font-size:25px">Mesto dolaska:  <span style="font-weight:bold">@Model.flight.place_to</span> </label>
+            </div>
+            
+        </div>
+
+
+
+        <div class="row" style="margin-top:20px">
+
+            <div class="offset-4 col-4">
+                <label style="font-size:25px">Datum polaska: <span style="font-weight:bold"> @Model.flight.date </span></label>
+
+            </div>
+
+        </div>
+
+        <div class="row" style="margin-top:20px">
+
+            <div class=" offset-4 col-3">
+
+                <label style="font-size:25px">Broj presedanja:  <span style="font-weight:bold"> @Model.flight.transfers </span> </label>
+            </div>
+
+        </div>
+        <div class="row" style="margin-top:20px">
+
+            <div class=" offset-4 col-3">
+
+                <label style="font-size:25px">Broj slobodnih mesta: <span style="font-weight:bold"> @(@Model.flight.capacity - @Model.flight.taken_seats)  </span> </label>
+            </div>
+
+        </div>
+
+        <div class="row" style="margin-top:20px">
+
+            <div class=" offset-4 col-3">
+                <label style="font-size:25px">Broj mesta za rezervaciju: </label>
+            </div>
+
+            <div class="col-4">
+
+                <input name="Reservations" value="@Model.number_of_reservations" class="form-control" style="width:30%" type="number" min="1" max="@(Model.flight.capacity-Model.flight.taken_seats)"/>
+            </div>
+
+        </div>
+
+        <div class="row" style="margin-top:20px">
+
+            <div class=" offset-4 col-3">
+
+                <button type="submit" class="btn btn-primary btn-sm" style="font-size:30px">Izvršite rezervaciju</button>
+            </div>
+            <div class="col-3">
+
+                <a class="btn btn-primary btn-sm" style="font-size:190%" href="/RegularUser/Index?username=@Model.Username">Nazad</a>
+            </div>
+
+        </div>
+
+
+    </form>
+</div>
+
+@if (Model.success_message.Length > 0)
+{
+                <div class="row mb-3">
+
+                    <div class="col-sm-9">
+
+                        <div class="alert alert-success alert-dismissable fade show " role="alert">
+                            <strong>@Model.success_message</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" arial-label="Close"></button>
+                        </div>
+
+                    </div>
+
+                </div>
+}
+
+@section Scripts{
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/reservations.js"></script>
+}
